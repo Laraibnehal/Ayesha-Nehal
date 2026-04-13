@@ -24,8 +24,8 @@ function createSearchParamsHelper(filterParams) {
     for (const [key, value] of Object.entries(filterParams)) {
       if (Array.isArray(value) && value.length > 0) {
         const paramValue = value.join(",");
-  
-        queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+        
+queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
       }
     }
   
@@ -48,27 +48,27 @@ function ShoppingListing() {
         // console.log(value,'handlesort')
         setSort(value)
     }
-    function handleFilter(getSectionId, getCurrentOption) {
-        let cpyFilters = { ...filters };
-        const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
+    // function handleFilter(getSectionId, getCurrentOption) {
+    //     let cpyFilters = { ...filters };
+    //     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
     
-        if (indexOfCurrentSection === -1) {
-          cpyFilters = {
-            ...cpyFilters,
-            [getSectionId]: [getCurrentOption],
-          };
-        } else {
-          const indexOfCurrentOption =
-            cpyFilters[getSectionId].indexOf(getCurrentOption);
+    //     if (indexOfCurrentSection === -1) {
+    //       cpyFilters = {
+    //         ...cpyFilters,
+    //         [getSectionId]: [getCurrentOption],
+    //       };
+    //     } else {
+    //       const indexOfCurrentOption =
+    //         cpyFilters[getSectionId].indexOf(getCurrentOption);
     
-          if (indexOfCurrentOption === -1)
-            cpyFilters[getSectionId].push(getCurrentOption);
-          else cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
-        }
+    //       if (indexOfCurrentOption === -1)
+    //         cpyFilters[getSectionId].push(getCurrentOption);
+    //       else cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
+    //     }
     
-        setFilters(cpyFilters);
-        sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
-      }
+    //     setFilters(cpyFilters);
+    //     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
+    //   }
       function handleGetProductDetails(getCurrentProductId){
         // console.log(getCurrentProductId)
         dispatch(fetchProductDetails(getCurrentProductId))
@@ -156,7 +156,10 @@ handleAddtoCart={handleAddtoCart}
 }
     </div>
 </div>
-<ProductDetailsDailog open={openDetailsDailog} setOpen={setOpenDetailsDailog} productDetails={productDetails} />
+<ProductDetailsDailog open={openDetailsDailog} 
+setOpen={setOpenDetailsDailog} 
+productDetails={productDetails}
+ />
     </div>
   )
 }

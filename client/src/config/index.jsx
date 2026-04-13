@@ -63,17 +63,16 @@ export const addProductFormElements = [
       componentType: "textarea",
       placeholder: "Enter product description",
     },
-    //  {
-    //    label: "Category",
-    //    name: "category",
-    //    componentType: "select",
-    //    options: [
-    //      { id: "women", label: "Abaya" },
-    //       // { id: "kids", label: "Kids" },
-    //      { id: "accessories", label: "Accessories" },
-    //       // { id: "footwear", label: "Footwear" },
-    //    ],
-    //  },
+      {
+        label: "Category",
+        name: "category",
+        componentType: "select",
+        options: [
+          { id: "new-arrival", label: "New Arrival" },
+            { id: "best-seller", label: "Best Sellers" },
+
+        ],
+      },
     // {
     //   label: "Brand",
     //   name: "brand",
@@ -207,6 +206,13 @@ export const addProductFormElements = [
       componentType: "input",
       type: "text",
       placeholder: "Enter your city",
+    },
+    {
+      label: "State",
+      name: "state",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter your state",
     },
     {
       label: "Pincode",

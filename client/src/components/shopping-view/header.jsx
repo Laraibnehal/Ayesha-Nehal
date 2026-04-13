@@ -21,12 +21,13 @@ function MenuItem() {
 
  <nav className='flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row'>
 {
-  shoppingViewHeaderMenuItems.map((menuItem)=>
+shoppingViewHeaderMenuItems.map((menuItem)=>
 ( 
-   <Link 
+   <Link
    className='text-sm font-medium cursor-pointer'
     key={menuItem.id}
-    to={menuItem.path}>
+    to = {menuItem.path}
+    >
   {menuItem.label}
   </Link>
   ))}
@@ -56,17 +57,18 @@ dispatch(fetchCartItems(user?.id))
     className= "relative"
     >
 <ShoppingCart className="w-6 h-6" />
-<span className="absolute top-[-5px] right-[2px] font-bold text-sm">
+<span className=" cursor-pointer absolute top-[-5px] right-[2px] font-bold text-sm">
             {cartItems?.items?.length || 0}
           </span>
 <span className='sr-only'>User Cart</span>
     </Button>
     <UserCartWrapper 
+      setOpenCartSheet={setOpenCartSheet}
     cartItems={cartItems && cartItems.items && cartItems.items.length > 0 ? cartItems.items : [] }/>
     </Sheet>
-    <DropdownMenu>
+    <DropdownMenu >
       <DropdownMenuTrigger asChild>
-<Avatar className='bg-black '>
+<Avatar className='bg-black cursor-pointer '>
   <AvatarFallback className='bg-[#6c6e5c] text-white font-extrabold text-xl'>
     {user?.userName[0].toUpperCase()}
   </AvatarFallback>
@@ -115,10 +117,10 @@ function ShoppingHeader() {
   </SheetContent>
 </Sheet>
 <div className='hidden lg:block'>
-<MenuItem/>
+<MenuItem />
 </div>
-<div className='hidden lg:block'>
-    <HeaderRightContent/>
+<div className='hidden  lg:block'>
+    <HeaderRightContent />
   </div> 
 </div>
 

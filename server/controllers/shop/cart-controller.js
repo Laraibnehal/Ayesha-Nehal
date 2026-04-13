@@ -1,5 +1,5 @@
-const Product = require('../../models/Product') 
 const Cart = require('../../models/Cart')
+const Product = require('../../models/Product') 
 
 const addToCart = async(req, res)=>{
     try{
@@ -100,7 +100,7 @@ res.status(500).json({
 }
 const updateCartItemQty = async(req, res)=>{
     try{
-        const{userId, productId, quantity} = req.body;
+        const {userId, productId, quantity} = req.body;
         if(!userId || !productId || quantity <= 0){
             return res.status(400).json({
                 success : false,
@@ -121,7 +121,7 @@ const updateCartItemQty = async(req, res)=>{
                 message: 'product not found in cart',
             })
         }
-        cart.item[findCurrentProductIndex].quantity = quantity;
+        cart.items[findCurrentProductIndex].quantity = quantity;
         await cart.save();
         await cart.populate({
             path: 'items.productId',
@@ -129,11 +129,11 @@ const updateCartItemQty = async(req, res)=>{
 
         }) 
         const populateCartItems = cart.items.map(item =>({
-            productId:item.productId? item.productId._id: null,
-            image:item.productId? item.productId.image: null,
-            title:item.productId? item.productId.title:null,
-            price: item.productId? item.productId.price:null,
-            salePrice:item.productId? 
+            productId:item.productId ? item.productId._id: null,
+            image:item.productId ? item.productId.image: null,
+            title:item.productId ? item.productId.title:"Product not found",
+            price: item.productId ? item.productId.price:null,
+            salePrice:item.productId ? 
              item.productId.salePrice:null,
             quantity: item.quantity,
         
@@ -144,7 +144,7 @@ const updateCartItemQty = async(req, res)=>{
             data: {
                 ...cart._doc,
                 items:populateCartItems
-            }
+            },
         })
     }catch(error){
 console.log(error);
@@ -173,7 +173,7 @@ if(!cart){
         message: 'cart not found',
     })
 }
-cart.items = cart.items.filter(item=>item.productId._id.toString() !== productId)
+cart.items = cart.items.filter((item) => item.productId._id.toString() !== productId)
 await cart.save()
 await cart.populate({
     path: 'items.productId',
@@ -191,7 +191,10 @@ const populateCartItems = cart.items.map(item =>({
 }))
 res.status(200).json({
     success: true,
-    message: 'cart item deleted',
+    data: {
+        ...cart._doc,
+        items: populateCartItems,
+      }
 })
     }catch(error){
 console.log(error);
