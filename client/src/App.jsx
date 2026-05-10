@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { checkAuth } from './store/auth-slice'
 import { Skeleton } from "@/components/ui/skeleton"
-
+import PaymentSuccessPage from './pages/shopping-view/payment-success'
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -76,6 +76,7 @@ if(isLoading) return <Skeleton className="w-[800] h-[600px] bg-[#6c6e5c]" />
         <Route path="listing" element={<ShoppingListing/>}/>
         <Route path="home" element={<ShoppingHome/>}/>
         <Route path="checkout" element={<ShoppingCheckout/>}/>
+        <Route path="payment-success" element={<PaymentSuccessPage/>}/>
         </Route>
         <Route path="*" element={<NotFound />}/>
         <Route path="/unauth-page" element={<UnauthPage/>}/>

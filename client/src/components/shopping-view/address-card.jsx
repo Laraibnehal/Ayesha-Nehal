@@ -7,8 +7,10 @@ function AddressCard({
   handleDeleteAddress,
   handleEditAddress,
   setCurrentSelectedAddress,
-  // selectedId,
+  selectedId,
 }) {
+  const isSelected = selectedId?._id === addressInfo?._id; // ✅ check if this card is selected
+
   return (
     <Card
      onClick={
@@ -16,6 +18,11 @@ function AddressCard({
           ? () => setCurrentSelectedAddress(addressInfo)
           : null      
 }  
+  className={`cursor-pointer transition-all duration-200 ${
+        isSelected
+          ? "border-2 border-black shadow-md"   // ✅ selected style
+          : "border border-gray-200 hover:border-gray-400" // ✅ default style
+      }`}
       >
      
    <CardContent className="grid p-4 gap-4">

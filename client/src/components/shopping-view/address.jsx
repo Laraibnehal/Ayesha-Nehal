@@ -20,9 +20,10 @@ const initialAddressFormData = {
   phone: "",
  notes: "",
 };
-function Address(setCurrentSelectedAddress) {
+function Address({setCurrentSelectedAddress, currentSelectedAddress}) {
   const [formData, setFormData] = useState(initialAddressFormData);
   const [currentEditedId, setCurrentEditedId] = useState(null);
+    const [selectedId, setSelectedId] = useState(currentSelectedAddress || null); // ✅
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { addressList } = useSelector((state) => state.shopAddress);
@@ -122,11 +123,16 @@ function Address(setCurrentSelectedAddress) {
         {addressList && addressList.length > 0
           ? addressList.map((singleAddressItem) => (
               <AddressCard
-                // selectedId={selectedId}
+                selectedId={selectedId}
+                 key={singleAddressItem._id}
                 handleDeleteAddress={handleDeleteAddress}
                 addressInfo={singleAddressItem}
                 handleEditAddress={handleEditAddress}
-                setCurrentSelectedAddress={setCurrentSelectedAddress}
+                                setCurrentSelectedAddress={(addressInfo) => {
+                  setSelectedId(addressInfo);                // ✅
+                  setCurrentSelectedAddress(addressInfo);    // ✅
+                }}
+
               />
             ))
           : null}

@@ -47,11 +47,18 @@ export const updateCartQuantity = createAsyncThunk(
       return response.data;
     }
   );
+  // ✅ Add this thunk to delete entire cart from backend
+export const deleteCartAPI = createAsyncThunk('cart/deleteCartAPI', async (userId) => {
+  const response = await axios.delete(`http://localhost:5000/api/shop/cart/clear/${userId}`);
+  return response.data;
+});
 
 const shoppingCartSlice = createSlice({
     name: 'shoppingCart',
     initialState,
-    reducers: {},
+    reducers: { clearCart: (state) => {       // ✅ clears cart in Redux state immediately
+      state.cartItems = [];
+    },},
     extraReducers: (builder) => {
         builder.addCase(addToCart.pending, (state)=>{
             state.isLoading=true
@@ -97,7 +104,12 @@ const shoppingCartSlice = createSlice({
             state.isLoading= false
             state.cartItems = []
         })
+        builder.addCase(deleteCartAPI.fulfilled, (state) => {
+            state.isLoading = false;
+            state.cartItems = [];
+    });
         
     }
 })
+export const { clearCart } = shoppingCartSlice.actions; // ✅ export it
 export default shoppingCartSlice.reducer;

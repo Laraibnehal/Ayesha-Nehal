@@ -1,4 +1,6 @@
-
+// require('dotenv').config({path: './.env'})
+// console.log("DIR:", __dirname);
+// console.log("RAZORPAY KEY:", process.env.RAZORPAY_KEY_ID);
 const express = require('express');
 const  mongoose  = require('mongoose');
 const cookieParser = require('cookie-parser')
@@ -10,9 +12,8 @@ const shopCartRouter = require('./routes/shop/cart-routes')
 const shopAddressRouter = require('./routes/shop/address-routes')
 const shopOrderRouter = require('./routes/shop/order-routes')
 const connectDB = require('./db/conn')
-const dotenv = require('dotenv'); 
-dotenv.config({path: './.env'})
-
+const path = require("path");
+require('dotenv').config({ path: path.join(__dirname, '.env') }); // ✅ always resolves correctly regardless of where you run from
 
 // mongoose.connect(DATABASE).then(()=>console.log('MongoDB connected')
 // ).catch((error)=>console.log(error))
