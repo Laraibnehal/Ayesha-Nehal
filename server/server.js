@@ -21,15 +21,17 @@ require('dotenv').config({ path: path.join(__dirname, '.env') }); // ✅ always 
  const app = express();
  const PORT = process.env.PORT || 5000;
  app.use(
-    cors({
-        origin: ["http://localhost:5173",
-             "https://ayesha-nehal.vercel.app"
-        ],
-      // ✅ allow all Vercel preview URLs
-      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+  cors({
+    origin: function(origin, callback) {
+      if (
+        !origin ||
+        origin === "http://localhost:5173" ||
+        origin === "https://ayesha-nehal.vercel.app" ||
+        origin.endsWith(".vercel.app")
+      ) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error("Not allowed by CORS"));
       }
     },
         methods: ["GET", "POST", 'DELETE','PUT'],
