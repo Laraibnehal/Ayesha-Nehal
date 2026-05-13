@@ -51,15 +51,12 @@ require('dotenv').config({ path: path.join(__dirname, '.env') }); // ✅ always 
 
 //  /api/auth/register => registerUser
 //  /api/auth/login => loginUser
-const start = async ()=>{
-    try{
-        connectDB(process.env.DATABASE);
-app.listen(PORT,()=> console.log(`server is running on port ${PORT}`)
-    );
-}
-    
-    catch(error){
-        console.log(error);
-    }
-}
+const start = async () => {
+  try {
+    await connectDB(process.env.DATABASE); // ✅ await this
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+  } catch (error) {
+    console.log(error);
+  }
+};
 start();
