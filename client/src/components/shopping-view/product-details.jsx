@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, fetchCartItems } from '@/store/shop/cart-slice'
 import { useToast } from '@/hooks/use-toast'
 import { setProductDetails } from '@/store/shop/products-slice'
+import { Badge } from '../ui/badge'
 
 function ProductDetailsDailog({
     open,
@@ -17,8 +18,24 @@ function ProductDetailsDailog({
 }) {
 const dispatch = useDispatch()
 const {toast} = useToast()
+const {cartItems} = useSelector(state => state.shopCart)
 const {user} = useSelector(state => state.auth)
-     function handleAddtoCart(getCurrentProductId){
+     function handleAddtoCart(getCurrentProductId, getTotalStock){
+                let getCartItems = cartItems.items || []
+if(getCartItems.length ){
+const indexOfCurrentItem = getCartItems.findIndex(item => item.productId === getCurrentProductId)
+if(indexOfCurrentItem > -1){
+
+    const getQuantity = getCartItems[indexOfCurrentItem]?.quantity || 0
+    if(getQuantity + 1 >= getTotalStock){
+        toast({
+            title: `Only ${getQuantity} items in stock`,
+            variant: 'destructive'
+        })
+        return
+    }
+}
+}
                 dispatch(
                     addToCart({
                       userId: user?.id,
@@ -75,9 +92,12 @@ const {user} = useSelector(state => state.auth)
 <span className='text-muted-foreground'>(4.5)</span>
 </div>
 <div className='mt-5 mb-5'>
-    <Button className="w-full"
-    onClick = {()=> handleAddtoCart(productDetails?._id)}
-    >Add to Cart</Button>
+{
+    productDetails?.totalStock > 0 ?    <Button className="w-full"
+    onClick = {()=> handleAddtoCart(productDetails?._id, productDetails?.totalStock)}
+    >Add to Cart</Button> : <Button className="w-full opacity-60 cursor-not-allowed" disabled>Out of Stock</Button>
+}
+ 
 </div>
 <Separator/>
 <div className='max-h-[300px] overflow-auto'>

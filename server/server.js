@@ -11,6 +11,7 @@ const shopProductsRouter = require('./routes/shop/products-routes')
 const shopCartRouter = require('./routes/shop/cart-routes')
 const shopAddressRouter = require('./routes/shop/address-routes')
 const shopOrderRouter = require('./routes/shop/order-routes')
+const adminOrderRouter = require('./routes/admin/order-routes')
 const connectDB = require('./db/conn')
 const path = require("path");
 require('dotenv').config({ path: path.join(__dirname, '.env') }); // ✅ always resolves correctly regardless of where you run from
@@ -21,7 +22,9 @@ require('dotenv').config({ path: path.join(__dirname, '.env') }); // ✅ always 
  const PORT = process.env.PORT || 5000;
  app.use(
     cors({
-        origin: ["http://localhost:5173"],
+        origin: ["http://localhost:5173",
+             "https://ayesha-nehal.vercel.app"
+        ],
         methods: ["GET", "POST", 'DELETE','PUT'],
         allowedHeaders: [
             "Content-Type", 
@@ -40,6 +43,7 @@ require('dotenv').config({ path: path.join(__dirname, '.env') }); // ✅ always 
  app.use(express.json());
  app.use("/api/auth", authRouter)
  app.use('/api/admin/products', adminProductsRouter)
+ app.use("/api/admin/orders", adminOrderRouter)
  app.use("/api/shop/products", shopProductsRouter)
  app.use("/api/shop/cart", shopCartRouter)
  app.use("/api/shop/address", shopAddressRouter)

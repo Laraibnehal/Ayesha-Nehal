@@ -1,38 +1,70 @@
-import React from 'react'
+
 import { Label } from '../ui/label'
-import { Dialog , DialogContent} from '../ui/dialog'
+import {  DialogContent} from '../ui/dialog'
 import { Separator } from '../ui/separator'
-function ShoppingOrderDetailsView() {
+import { Badge } from '../ui/badge'
+import { useSelector } from 'react-redux'
+import React from 'react'
+function ShoppingOrderDetailsView({orderDetails}) {
+    const {user} = useSelector((state) => state.auth);
   return (
    <DialogContent className="w-[600px] sm:max">
 <div className='gap-6 grid'>
     <div className='grid gap-2'>
-        <div className='flex mt-6 item-center justify-between'>
+        <div className='flex mt-6 items-center justify-between'>
             <p className='font-medium'>Order Id</p>
-            <Label>123456</Label>
+            <Label>{orderDetails?._id}</Label>
         </div>
-        <div className='flex mt-2 item-center justify-between'>
+        <div className='flex mt-2 items-center justify-between'>
             <p className='font-medium'>Order Date</p>
-            <Label>12/5/2022</Label>
+            <Label>{orderDetails?.orderDate?.split("T")[0]}</Label>
         </div>
-        <div className='flex mt-2 item-center justify-between'>
+        <div className='flex mt-2 items-center justify-between'>
             <p className='font-medium'>Order Status</p>
-            <Label>In process</Label>
+            <Label>
+                <Badge
+                className={`py-1 px-3 ${
+                  orderDetails?.orderStatus === "confirmed"
+                    ? "bg-green-500"
+                    : orderDetails?.orderStatus === "rejected"
+                    ? "bg-red-600"
+                    : "bg-black"
+                }`}
+              >
+                {orderDetails?.orderStatus}
+              </Badge>
+            </Label>
         </div>
-        <div className='flex mt-2 item-center justify-between'>
+        <div className='flex mt-2 items-center justify-between'>
             <p className='font-medium'>Order Price</p>
-            <Label>Rs. 4000</Label>
+            <Label>Rs.{orderDetails?.totalAmount}</Label>
+        </div>
+        <div className='flex mt-2 items-center justify-between'>
+            <p className='font-medium'>Payment Method</p>
+            <Label>{orderDetails?.paymentMethod}</Label>
+        </div>
+        <div className='flex mt-2 items-center justify-between'>
+            <p className='font-medium'>Payment Status</p>
+            <Label>{orderDetails?.paymentStatus}</Label>
         </div>
     </div>
     <Separator />
     <div className='grid gap-4'>
     <div className='grid gap-2'>
-<div className='font-meduim'>Order Details</div>
+<div className='font-medium'>Order Details</div>
 <ul className='grid gap-3'>
-    <li className='flex items-center justify-between'>
-        <span>Product One</span>
-        <span>Rs. 3000</span>
-    </li>
+{
+    orderDetails?.cartItems && orderDetails?.cartItems.length > 0 ?
+    orderDetails?.cartItems.map((item) =>(
+        <li className='flex items-center justify-between'>
+        <span>{item.title}</span>
+        <span>Qty: {item.quantity}</span>
+        <span>Rs.{item.price}</span>
+    </li>    
+        ))
+:null}
+
+  
 </ul>
     </div>
     </div>
@@ -40,12 +72,13 @@ function ShoppingOrderDetailsView() {
         <div className='grid gap-2'>
             <div className='font-medium'>Shipping Address</div>
             <div className='grid gap-0.5 text-muted-foreground'>
-                <span>Laraib</span>
-                <span>City</span>
-                <span>State</span>
-                <span>Pin code</span>
-                <span>Phone number</span>
-                <span>Notes</span>
+            <span>{user?.userName}</span>
+                <span>{orderDetails?.addressInfo?.address}</span>
+                <span>{orderDetails?.addressInfo?.city}</span>
+                <span>{orderDetails?.addressInfo?.state}</span>
+                <span>{orderDetails?.addressInfo?.pinCode}</span>
+                <span>{orderDetails?.addressInfo?.phone}</span>
+                <span>{orderDetails?.addressInfo?.notes}</span>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 const razorpay = require("../../helpers/razor");
 const Order = require("../../models/Order");
 const Product = require("../../models/Product"); // ✅ make sure this is imported
-const Cart = require("../../models/Cart");       // ✅ make sure this is imported
+const Cart = require("../../models/Cart");      // ✅ make sure this is imported
 const crypto = require("crypto");                // ✅ move to top
 
 const createOrder = async (req, res) => {
@@ -65,7 +65,11 @@ const createOrder = async (req, res) => {
 
 const capturePayment = async (req, res) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
+    const { razorpay_order_id,
+       razorpay_payment_id, 
+       razorpay_signature, 
+       orderId
+       } = req.body;
 
     // ✅ Step 1: Verify signature
     const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -127,7 +131,7 @@ const getAllOrdersByUser= async (req, res) => {
   try {
     const userId = req.params.userId;
     const orders = await Order.find({ userId }).sort({ orderDate: -1 });
-    if (!orders) {
+    if (!orders.length) {
       return res.status(404).json({ 
         success: false,
          message: "No orders found for this user" });
@@ -141,8 +145,8 @@ const getAllOrdersByUser= async (req, res) => {
 };
 const getOrderDetails= async (req, res) => {
   try {
-    const Id = req.params.Id;
-    const order = await Order.findById(Id);
+    const id = req.params.id;
+    const order = await Order.findById(id);
     if (!order) {
       return res.status(404).json({ 
         success: false,

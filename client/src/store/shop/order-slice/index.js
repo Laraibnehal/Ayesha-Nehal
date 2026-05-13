@@ -10,11 +10,11 @@ const initialState = {
     orderList: [], // ✅ for storing user's past orders
     orderDetails: null, // ✅ for storing details of a single order
 }
-
+const BASE_URL = import.meta.env.VITE_API_URL; 
 export const createNewOrder = createAsyncThunk(
 '/order/createNewOrder', async (orderData, { rejectWithValue }) => {
     try {
-        const response = await axios.post("http://localhost:5000/api/shop/order/create", orderData);
+        const response = await axios.post(`${BASE_URL}/api/shop/order/create`, orderData);
         return response.data;
     } catch (error) {
         // ✅ Properly capture server error messages
@@ -26,7 +26,7 @@ export const capturePayment = createAsyncThunk(
 '/order/capturePayment', async ( { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId  }) => {
     try {
             console.log("Sending to backend:", { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId });
-        const response = await axios.post("http://localhost:5000/api/shop/order/capture", 
+        const response = await axios.post(`${BASE_URL}/api/shop/order/capture`, 
             { razorpay_order_id, 
             razorpay_payment_id, 
             razorpay_signature,
@@ -43,7 +43,7 @@ export const capturePayment = createAsyncThunk(
 export const getAllOrdersByUserId = createAsyncThunk(
 '/order/getAllOrdersByUserId', async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5000/api/shop/order/list/${userId}`);
+        const response = await axios.get(`${BASE_URL}/api/shop/order/list/${userId}`);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response?.data?.message || "Failed to fetch orders");
@@ -52,7 +52,7 @@ export const getAllOrdersByUserId = createAsyncThunk(
 export const getOrderDetails = createAsyncThunk(
 '/order/getOrderDetails', async (orderId) => {
     try {
-        const response = await axios.get(`http://localhost:5000/api/shop/order/details/${orderId}`);
+        const response = await axios.get(`${BASE_URL}/api/shop/order/details/${orderId}`);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response?.data?.message || "Failed to fetch order details");

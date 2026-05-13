@@ -6,12 +6,12 @@ const initialState = {
     cartItems : [],
 isLoading:false
 }
-
+const BASE_URL = import.meta.env.VITE_API_URL; 
 export const addToCart = createAsyncThunk(
     "cart/addToCart",
     async ({ userId, productId, quantity }) => {
       const response = await axios.post(
-        "http://localhost:5000/api/shop/cart/add",
+        `${BASE_URL}/api/shop/cart/add`,
         {
           userId,
           productId,
@@ -23,12 +23,12 @@ export const addToCart = createAsyncThunk(
     }
   );
 export const fetchCartItems = createAsyncThunk('cart/fetchCartItems',async(userId)=>{
-    const response = await axios.get(`http://localhost:5000/api/shop/cart/get/${userId}`
+    const response = await axios.get(`${BASE_URL}/api/shop/cart/get/${userId}`
     )
     return response.data
 })
 export const deleteCartItem=createAsyncThunk('cart/deleteCartItem',async({userId, productId})=>{
-    const response = await axios.delete(`http://localhost:5000/api/shop/cart/${userId}/${productId}`
+    const response = await axios.delete(`${BASE_URL}/api/shop/cart/${userId}/${productId}`
     )
     return response.data
 })
@@ -36,7 +36,7 @@ export const updateCartQuantity = createAsyncThunk(
     "cart/updateCartQuantity",
     async ({ userId, productId, quantity }) => {
       const response = await axios.put(
-        "http://localhost:5000/api/shop/cart/update-cart",
+        `${BASE_URL}/api/shop/cart/update-cart`,
         {
           userId,
           productId,
@@ -49,7 +49,7 @@ export const updateCartQuantity = createAsyncThunk(
   );
   // ✅ Add this thunk to delete entire cart from backend
 export const deleteCartAPI = createAsyncThunk('cart/deleteCartAPI', async (userId) => {
-  const response = await axios.delete(`http://localhost:5000/api/shop/cart/clear/${userId}`);
+  const response = await axios.delete(`${BASE_URL}/api/shop/cart/clear/${userId}`);
   return response.data;
 });
 

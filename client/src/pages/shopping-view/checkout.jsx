@@ -99,7 +99,7 @@ function ShoppingCheckout() {
         email: user?.email,
       },
       theme: {
-        color: "#6366f1", // ✅ change to your brand colour
+        color: "#6c6e5c", // ✅ change to your brand colour
       },
       handler: function (response) {
         // ✅ Called on successful payment — verify on backend
